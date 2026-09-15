@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rake/testtask"
+require "bundler/gem_tasks" # rake release（Trusted Publishing 发布路径，同 citrine）
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "lib" << "test"

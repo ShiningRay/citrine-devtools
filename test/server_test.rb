@@ -282,7 +282,9 @@ class ServerTest < Minitest::Test
   def test_stop_closes_open_stream_connections
     server = Server.new(port: 0).start
     client = SseClient.new(server.port)
-    assert_equal 1, server.client_count
+    # 注册发生在服务端 pump 线程：客户端 TCP 连接返回不代表已登记——
+    # CI 高负载下直接断言会竞态（Expected 1 Actual 0），改轮询等待
+    wait_until(3) { server.client_count == 1 }
 
     server.stop
     wait_until(3) { server.client_count.zero? }

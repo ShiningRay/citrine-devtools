@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# lib 入 $LOAD_PATH：与 gem 安装后的 require 解析行为一致
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+$stdout.sync = true # CLI 输出重定向到文件/管道时不应块缓冲
+
+require "citrine-devtools"
+
+cmd = ARGV.shift
+case cmd
+when "serve"
+  Citrine::DevTools::Server.run!(ARGV)
+when nil, "help", "-h", "--help"
+  puts <<~USAGE
+    citrine-devtools — Citrine/Emerald DevTools 中继服务
+
+    用法:
+      bin/citrine-devtools serve [-p 端口]   启动中继（消息总线，默认端口 9527）
+
+    被调试页引入桥接脚本（协议见 docs/PROTOCOL.md）:
+      <script src="http://127.0.0.1:9527/bridge.js"></script>
+  USAGE
+else
+  warn "未知命令: #{cmd}（试试 bin/citrine-devtools help）"
+  exit 1
+end

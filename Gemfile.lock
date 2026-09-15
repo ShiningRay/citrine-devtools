@@ -1,0 +1,32 @@
+PATH
+  remote: .
+  specs:
+    citrine-devtools (0.1.0)
+      puma (>= 6.0)
+      rack (>= 3.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    drb (2.2.3)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
+    nio4r (2.7.5)
+    prism (1.9.0)
+    puma (8.0.2)
+      nio4r (~> 2.0)
+    rack (3.2.7)
+    rake (13.4.2)
+
+PLATFORMS
+  arm64-darwin-24
+  ruby
+
+DEPENDENCIES
+  citrine-devtools!
+  minitest
+  rake
+
+BUNDLED WITH
+   2.7.2

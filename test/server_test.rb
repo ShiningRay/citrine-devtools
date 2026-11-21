@@ -245,6 +245,9 @@ class ServerTest < Minitest::Test
     with_server(ping_interval: 0.2) do |server|
       live = SseClient.new(server.port)
       zombie = SseClient.new(server.port)
+      # 客户端 connect 返回不代表服务端已把连接登记进 registry，
+      # Ruby 3.2 上这两步的调度间隔比其他版本大，直接断言会偶发 1 != 2。
+      wait_until(5) { server.client_count == 2 }
       assert_equal 2, server.client_count
 
       # 15s 周期的测试加速版：comment ping 到达且不占消息位
